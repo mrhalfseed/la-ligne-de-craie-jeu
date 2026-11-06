@@ -1,0 +1,35 @@
+{
+ "name": "La Ligne de craie",
+ "short_name": "Ligne de craie",
+ "description": "Une BD interactive sur la Grande Guerre : un jeune berger basque au Chemin des Dames.",
+ "lang": "fr",
+ "start_url": "./",
+ "scope": "./",
+ "display": "fullscreen",
+ "orientation": "landscape",
+ "background_color": "#0d0b09",
+ "theme_color": "#0d0b09",
+ "categories": [
+  "books",
+  "education",
+  "games"
+ ],
+ "icons": [
+  {
+   "src": "icones/icone-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icones/icone-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icones/icone-masquable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}
