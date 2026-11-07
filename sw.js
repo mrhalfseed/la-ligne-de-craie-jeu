@@ -1,6 +1,6 @@
 /* Garde le jeu en mémoire sur le téléphone : la page est toujours reprise à jour si on a du réseau,
    les images et les sons sont gardés après le premier chargement (le jeu se relance vite, même hors connexion). */
-const CACHE="ldc-v96";
+const CACHE="ldc-v97";
 self.addEventListener("install",e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE).then(c=>c.addAll(["./","index.html","manifest.webmanifest","img/accueil.jpg","son/musique-pavane.mp3"])))});
 self.addEventListener("activate",e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener("fetch",e=>{const r=e.request;if(r.method!=="GET")return;

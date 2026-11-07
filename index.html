@@ -181,10 +181,77 @@ body{background:var(--nuit);color:var(--craie);font-family:var(--f-texte);overfl
 .shake{animation:shake .35s}
 @keyframes shake{25%{transform:translate(2px,-1px)}50%{transform:translate(-2px,1px)}75%{transform:translate(1px,1px)}}
 @media (prefers-reduced-motion:reduce){#hint,#portrait .tel{animation:none}.shake{animation:none}}
+
+/* ===== Accueil et menus, version 2 : sobre, cinématographique, à l'image du jeu ===== */
+#debut{display:block;padding:0;background:#0d0b09;text-align:left}
+#accueilFond{inset:-3%;animation:accDerive 46s ease-in-out infinite alternate}
+#accueilFond::after{background:linear-gradient(90deg,rgba(13,11,9,0) 20%,rgba(13,11,9,.55) 50%,rgba(13,11,9,.93) 78%),linear-gradient(0deg,rgba(13,11,9,.85),rgba(13,11,9,0) 30%),radial-gradient(ellipse at 30% 40%,rgba(0,0,0,0) 40%,rgba(0,0,0,.45))}
+#accueilGrain{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.12;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+#debut>.accColonne,#debut>.accMenu,#debut>.consigne,#debut>#musHint{position:absolute!important}
+.accColonne{position:absolute;z-index:1;right:6%;top:46%;transform:translateY(-50%);width:min(48%,470px);display:flex;flex-direction:column;align-items:flex-start;gap:calc(var(--u)*1.6)}
+.accColonne>*{opacity:0;animation:accApparait 1.1s ease-out forwards}
+.accColonne>*:nth-child(1){animation-delay:.2s}.accColonne>*:nth-child(2){animation-delay:.45s}.accColonne>*:nth-child(3){animation-delay:.75s}
+.accColonne>*:nth-child(4){animation-delay:.95s}.accColonne>*:nth-child(5){animation-delay:1.25s}.accColonne>*:nth-child(6){animation-delay:1.55s}
+@keyframes accApparait{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+#debut .surtitre{margin:0;font-family:var(--f-texte);font-size:calc(var(--u)*2.7);letter-spacing:.28em;text-transform:uppercase;color:#b8a07a}
+#debut h1{margin:0;font-family:var(--f-recit);font-weight:400;font-size:calc(var(--u)*13);line-height:.92;letter-spacing:.005em;color:#efeadf;text-shadow:0 2px 24px rgba(0,0,0,.65);text-align:left}
+#debut .lieu{margin:0;font-family:var(--f-recit);font-style:italic;font-size:calc(var(--u)*3.6);color:#d9c49a}
+svg.craie{width:calc(var(--u)*44);height:calc(var(--u)*2.2);overflow:visible}
+svg.craie path{fill:none;stroke:#ece6d8;stroke-width:3.2;stroke-linecap:round;stroke-dasharray:320;stroke-dashoffset:320;opacity:.9;filter:url(#craieFiltre);animation:craieTrace 1.6s .9s ease-out forwards}
+svg.craie.petite{width:calc(var(--u)*26)}
+@keyframes craieTrace{to{stroke-dashoffset:0}}
+#debut .accroche{margin:0;max-width:none;font-family:var(--f-texte);font-size:calc(var(--u)*3.7);line-height:1.45;color:#ded6c4;text-shadow:0 1px 10px rgba(0,0,0,.8);text-align:left}
+#debut .accBtns{display:flex;gap:10px;flex-wrap:nowrap;align-items:stretch;justify-content:flex-start;margin-top:calc(var(--u)*1.2)}
+#debut .accBtns .go,.ecran button.go{font-family:var(--f-texte);font-weight:600;font-size:calc(var(--u)*3.9);letter-spacing:.06em;color:#15110d;background:#ece6d8;border:1px solid #ece6d8;border-radius:2px;padding:.5em 1.2em;white-space:nowrap;box-shadow:0 6px 24px rgba(0,0,0,.35);transition:transform .15s,background .2s}
+.ecran button.go:active{transform:scale(.97)}
+#debut #reprise small{display:block;font-weight:400;font-size:.62em;letter-spacing:.02em;opacity:.75;margin-top:.15em}
+#debut #reprise:not([hidden])+#commencer{font-size:calc(var(--u)*3.2);background:transparent;color:#ece6d8;border-color:rgba(236,230,216,.45);box-shadow:none;font-weight:400}
+.accMenu{position:absolute;z-index:1;left:0;right:0;bottom:calc(var(--u)*6);display:flex;justify-content:flex-end;gap:0;padding-right:6%;opacity:0;animation:accApparait 1s 1.8s ease-out forwards}
+.accMenu button{font-family:var(--f-texte);font-size:calc(var(--u)*3.2);letter-spacing:.04em;color:#cdbf9f;background:none;border:0;padding:.2em .9em;cursor:pointer;position:relative}
+.accMenu button+button::before{content:"";position:absolute;left:0;top:25%;height:50%;width:1px;background:rgba(205,191,159,.35)}
+.accMenu button[hidden]+button::before{display:none}
+.accMenu button:active{color:#fff}
+#debut .consigne{position:absolute;z-index:1;left:0;right:6%;bottom:calc(var(--u)*2.2);margin:0;max-width:none;text-align:right;font-size:calc(var(--u)*2.3);color:rgba(184,160,122,.75);letter-spacing:.04em}
+#musHint{position:absolute;z-index:2;left:calc(var(--u)*5);top:calc(var(--u)*4);margin:0;font-size:calc(var(--u)*2.7);color:#e0b98a;letter-spacing:.05em;animation:musPulse 2.4s ease-in-out infinite}
+@keyframes musPulse{50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){.accColonne>*,.accMenu{animation:none;opacity:1}svg.craie path{animation:none;stroke-dashoffset:0}#musHint{animation:none}}
+/* les panneaux : une carte sombre posée sur l'image floutée */
+.panneau{position:fixed!important;inset:0;z-index:70;display:flex!important;align-items:center;justify-content:center;padding:14px!important;background:rgba(8,7,5,.72)!important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.panneau[hidden]{display:none!important}
+.carte{position:relative;width:min(560px,100%);max-height:calc(100% - 8px);overflow-y:auto;box-sizing:border-box;padding:22px 26px 20px;border:1px solid rgba(236,230,216,.14);border-radius:6px;
+  background:linear-gradient(160deg,rgba(40,33,25,.96),rgba(17,14,11,.97));box-shadow:0 20px 60px rgba(0,0,0,.6);display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;color:var(--craie)}
+.carte.large{width:min(780px,100%)}
+.carte .surCarte{margin:0;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#a8916a}
+.carte h2,.carte h3{margin:0;font-family:var(--f-recit);font-weight:400;font-size:28px;color:#efeadf}
+.fermerX{position:absolute;top:8px;right:12px;width:36px;height:36px;border-radius:50%;border:1px solid rgba(236,230,216,.2);background:rgba(255,255,255,.04);color:#e9e4d8;font-size:22px;line-height:1;cursor:pointer}
+#reglages,#chapitres{color:var(--craie)}
+#reglages .ligne{width:100%}
+#reglages input[type=range]{accent-color:#c9b48a}
+#reglages button[aria-pressed="true"]{background:#5b231d;border-color:#9e2a22}
+#chapitres .aide,#reglages .aide{font-size:14px;color:#b8a07a;max-width:36em;margin:0}
+#chListe{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;width:100%;max-height:none;padding:4px 0 0}
+#chListe button.chCarte{position:relative;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:2px;min-height:86px;padding:8px 10px;border-radius:4px;border:1px solid rgba(236,230,216,.16);background:#1a1511;overflow:hidden;text-align:left;cursor:pointer}
+#chListe .chImg{position:absolute;inset:0;background-size:cover;background-position:center;opacity:.55;transition:opacity .2s}
+#chListe button.chCarte::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,8,6,.92),rgba(10,8,6,.1) 70%)}
+#chListe button.chCarte:active .chImg{opacity:.85}
+#chListe .chNum,#chListe .chTitre{position:relative;z-index:1}
+#chListe .chNum{font-family:var(--f-recit);font-size:20px;color:#e0b98a;line-height:1}
+#chListe .chTitre{font-size:14px;color:#efeadf;line-height:1.2}
+#apropos .apGrille{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;text-align:left;width:100%}
+#apropos .apTexte p{margin:0 0 9px;font-size:14.5px;line-height:1.45;color:#d6cdb9;max-width:none}
+#apropos .apQR{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px;border:1px solid rgba(236,230,216,.12);border-radius:4px;background:rgba(0,0,0,.2)}
+#apropos .apQR img{display:block;width:150px;height:150px;border-radius:2px}
+#apropos .qrTitre{margin:0;font-family:var(--f-recit);font-size:17px;color:#efeadf}
+#apropos .qrUrl{margin:0;font-size:11px;color:#a8916a;max-width:160px;word-break:break-all;text-align:center}
+#apropos .version{margin:4px 0 0;font-size:11px;color:rgba(168,145,106,.7)}
+@media (max-height:420px){.carte{padding:16px 20px 14px;gap:7px}.carte h2,.carte h3{font-size:23px}#apropos .apQR img{width:118px;height:118px}}
+/* les boutons du haut : discrets, flous */
+#ctrl button{font-size:13px;letter-spacing:.04em;background:rgba(13,11,9,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-color:rgba(233,228,216,.22)}
 </style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="craieFiltre"><feTurbulence type="fractalNoise" baseFrequency="1.2" numOctaves="2" result="b"/><feDisplacementMap in="SourceGraphic" in2="b" scale="2.2"/></filter></svg>
 <div id="wrap">
   <div id="stage" role="application" aria-label="Lecture de la bande dessinée. Touchez l'écran pour avancer.">
     <canvas id="gl"></canvas>
@@ -199,27 +266,50 @@ body{background:var(--nuit);color:var(--craie);font-family:var(--f-texte);overfl
     <div id="hint" hidden>Touchez pour continuer</div>
     <div id="choix" hidden><h2 id="choixQ"></h2><div class="opts" id="opts"></div></div>
     <div class="ecran" id="debut">
-      <!-- Page d'accueil : une grande image du Chemin des Dames, le titre, la musique. Les chapitres sont cachés. -->
+      <!-- Page d'accueil : l'image du Chemin des Dames, le titre à droite, deux boutons, un menu discret en bas -->
       <div id="accueilFond" aria-hidden="true"></div>
-      <h1 id="titreJeu">La Ligne de craie<em>Chemin des Dames · 1914-1918</em></h1>
-      <div class="trait"></div>
-      <p class="accroche">Un jeune berger basque. Une ligne de craie. Des choix qui décident de qui reviendra.</p>
-      <div class="accBtns"><button class="go" id="reprise" type="button" hidden>Continuer</button><button class="go" id="commencer" type="button">Commencer</button><button class="go" id="chapitresBtn" type="button" hidden>Chapitres</button><button class="go" id="fichesAccueil" type="button">Fiches d'histoire</button></div>
-      <!-- boutons des chapitres : cachés pour toujours dans la version finale (le code s'en sert pour lancer le chapitre 1) -->
+      <div id="accueilGrain" aria-hidden="true"></div>
+      <p id="musHint">♪ Touchez l'écran pour la musique</p>
+      <div class="accColonne">
+        <p class="surtitre">Une bande dessinée interactive</p>
+        <h1 id="titreJeu">La Ligne<br>de craie</h1>
+        <p class="lieu">Chemin des Dames · 1914 – 1918</p>
+        <svg class="craie" viewBox="0 0 300 14" aria-hidden="true"><path d="M3 8 C 50 4, 95 11, 150 7 S 245 4, 297 8"/></svg>
+        <p class="accroche">Un jeune berger basque. Une ligne de craie.<br>Des choix qui décident de qui reviendra.</p>
+        <div class="accBtns"><button class="go" id="reprise" type="button" hidden>Continuer</button><button class="go" id="commencer" type="button">Commencer</button></div>
+      </div>
+      <nav class="accMenu" aria-label="Menu">
+        <button type="button" id="chapitresBtn" hidden>Chapitres</button>
+        <button type="button" id="fichesAccueil">Fiches d'histoire</button>
+        <button type="button" id="reglAcc">Réglages</button>
+        <button type="button" id="aproposBtn">À propos</button>
+      </nav>
+      <!-- boutons des chapitres : cachés pour toujours (le code s'en sert pour lancer le chapitre 1) -->
       <div id="chapitresTest" hidden><button class="go" id="go" type="button">Chapitre 1</button><button class="go" id="go2" type="button">Chapitre 2</button><button class="go" id="go3" type="button">Chapitre 3</button><button class="go" id="go4" type="button">Chapitre 4</button><button class="go" id="go5" type="button">Chapitre 5</button><button class="go" id="go6" type="button">Chapitre 6</button><button class="go" id="go7" type="button">Chapitre 7</button><button class="go" id="go8" type="button">Chapitre 8</button><button class="go" id="go9" type="button">Chapitre 9</button><button class="go" id="go10" type="button">Chapitre 10</button><button class="go" id="go11" type="button">Chapitre 11</button><button class="go" id="go12" type="button">Chapitre 12</button><button class="go" id="go13" type="button">Chapitre 13</button><button class="go" id="go14" type="button">Chapitre 14</button><button class="go" id="go15" type="button">Chapitre 15</button><button class="go" id="go16" type="button">Chapitre 16</button><button class="go" id="go17" type="button">Chapitre 17</button><button class="go" id="go18" type="button">Chapitre 18</button><button class="go" id="go19" type="button">13 bis (Clémence)</button><button class="go" id="go20" type="button">14 bis (Clémence)</button></div>
-      <p class="petit" id="musHint" style="color:#e0b98a">♪ Touchez l'écran pour lancer la musique</p>
-      <p class="petit">Téléphone à l'horizontale, son allumé, de préférence avec des écouteurs. Touchez l'écran pour avancer.<br><button type="button" id="aproposBtn" class="lien">À propos</button></p>
+      <p class="consigne">Téléphone à l'horizontale · son allumé · touchez l'écran pour avancer</p>
     </div>
     <!-- Écran « À propos » : le but du jeu, l'usage de l'IA (dit franchement), les sources des photos -->
-    <div class="ecran" id="apropos" hidden>
-      <h1>À propos<em>La Ligne de craie</em></h1>
-      <div class="trait"></div>
-      <p>Ce jeu raconte une histoire inventée, celle de Peio, mais tout ce qui l'entoure est vrai : les Basques au Chemin des Dames, les creutes, les mutineries de 1917, les conseils de guerre, le monument de 1928. Les faits ont été vérifiés ; les fiches d'histoire (le bouton «&nbsp;?&nbsp;») donnent les explications.</p>
-      <p>Images créées avec l'aide d'une intelligence artificielle, sous la direction de l'auteur. Le but n'est pas le dessin, mais la transmission : les images sont un support pour l'histoire.</p>
-      <p>Les photos d'époque des fiches et de la fin du jeu sont dans le domaine public (Wikimedia Commons, Bibliothèque nationale de France, Archives nationales).</p>
-      <p>Musique : Maurice Ravel, « Pavane pour une infante défunte » (1899), au piano par Thérèse Dussaut (enregistrement de 1976 par Glenn White), licence CC BY-SA 2.0, via Wikimedia Commons. Gustav Holst, « Mars » (1914), par l'United States Air Force Band, domaine public.</p>
-      <p style="font-size:.75em;opacity:.6">Version n° 96</p>
-      <button class="go" type="button" id="aproposRetour">Retour</button>
+    <div class="ecran panneau" id="apropos" hidden>
+      <div class="carte large">
+        <button type="button" class="fermerX" id="aproposRetour" aria-label="Fermer">×</button>
+        <p class="surCarte">La Ligne de craie</p>
+        <h2>À propos</h2>
+        <svg class="craie petite" viewBox="0 0 300 14" aria-hidden="true"><path d="M3 8 C 50 4, 95 11, 150 7 S 245 4, 297 8"/></svg>
+        <div class="apGrille">
+          <div class="apTexte">
+        <p>Ce jeu raconte une histoire inventée, celle de Peio, mais tout ce qui l'entoure est vrai : les Basques au Chemin des Dames, les creutes, les mutineries de 1917, les conseils de guerre, le monument de 1928. Les faits ont été vérifiés ; les fiches d'histoire (le bouton «&nbsp;?&nbsp;») donnent les explications.</p>
+        <p>Images créées avec l'aide d'une intelligence artificielle, sous la direction de l'auteur. Le but n'est pas le dessin, mais la transmission : les images sont un support pour l'histoire.</p>
+        <p>Les photos d'époque des fiches et de la fin du jeu sont dans le domaine public (Wikimedia Commons, Bibliothèque nationale de France, Archives nationales).</p>
+        <p>Musique : Maurice Ravel, « Pavane pour une infante défunte » (1899), au piano par Thérèse Dussaut (enregistrement de 1976 par Glenn White), licence CC BY-SA 2.0, via Wikimedia Commons. Gustav Holst, « Mars » (1914), par l'United States Air Force Band, domaine public.</p>
+          </div>
+          <div class="apQR">
+            <img src="img/qr-jeu.png" alt="QR code vers le jeu" width="150" height="150">
+            <p class="qrTitre">Partager le jeu</p>
+            <p class="qrUrl">mrhalfseed.github.io/la-ligne-de-craie-jeu</p>
+          </div>
+        </div>
+        <p class="version">Version n° 97</p>
+      </div>
     </div>
     <div class="ecran" id="fin" hidden></div>
     <div id="fiches" hidden><div class="liste" id="fichesBox"></div></div>
@@ -227,20 +317,23 @@ body{background:var(--nuit);color:var(--craie);font-family:var(--f-texte);overfl
 </div>
 <div id="ctrl"><button id="son" type="button" aria-pressed="true">Son : oui</button><button id="reglBtn" type="button" aria-label="Réglages du son">Réglages</button><button id="rejouer" type="button">Accueil</button></div>
 <!-- Chapitres déjà joués : reprendre l'histoire au début d'un chapitre déjà atteint -->
-<div id="chapitres" hidden role="dialog" aria-label="Chapitres déjà joués">
-  <h3>Chapitres déjà joués</h3>
+<div id="chapitres" class="panneau" hidden role="dialog" aria-label="Chapitres déjà joués"><div class="carte large">
+  <button id="chFermer" type="button" class="fermerX" aria-label="Fermer">×</button>
+  <p class="surCarte">Reprendre l'histoire</p>
+  <h3>Chapitres</h3>
   <p class="aide">Reprenez l'histoire au début d'un chapitre, avec les choix faits avant lui, et décidez autrement. La partie en cours repartira de là.</p>
   <div id="chListe"></div>
-  <button id="chFermer" type="button" class="fermer">Fermer</button>
-</div>
+</div></div>
 <!-- Réglages : volume de la musique et des bruitages, séparément -->
-<div id="reglages" hidden role="dialog" aria-label="Réglages du son">
-  <h3>Réglages du son</h3>
+<div id="reglages" class="panneau" hidden role="dialog" aria-label="Réglages du son"><div class="carte">
+  <button id="reglFermerX" type="button" class="fermerX" aria-label="Fermer">×</button>
+  <p class="surCarte">Réglages</p>
+  <h3>Le son</h3>
   <div class="ligne"><label for="volMus">Musique</label><input id="volMus" type="range" min="0" max="100" step="1"><span id="volMusTxt"></span><button id="coupeMus" type="button"></button></div>
   <div class="ligne"><label for="volSfx">Bruitages</label><input id="volSfx" type="range" min="0" max="100" step="1"><span id="volSfxTxt"></span><button id="coupeSfx" type="button"></button></div>
   <p class="aide">Les bruitages (obus, brebis, cloches…) racontent l'histoire. La musique n'est qu'un fond.</p>
   <button id="reglFermer" type="button" class="fermer">Fermer</button>
-</div>
+</div></div>
 <div id="portrait" hidden><div class="tel"></div><div>Tournez votre téléphone à l'horizontale<br>pour lire la bande dessinée.</div><button id="quandmeme" type="button">Continuer quand même</button></div>
 
 <script>
@@ -4381,7 +4474,7 @@ $("go").addEventListener("click",e=>{e.stopPropagation();audioInit();if(A.ctx&&A
 const TITRES={1:"Le tocsin",19:"Sans famille",20:"Les cloches de Soissons",2:"L'âge de mourir",3:"Pierre",4:"Le baptême du feu",5:"Du papier et de l'encre",6:"La terre qui rend les morts",7:"Les mains qui tremblent",8:"Les creutes",9:"Les promesses qu'on ne tient pas",10:"C'est nous les sacrifiés",11:"Les mutineries",12:"La clémence",13:"Et après ?",14:"Itxaroten",15:"Finir",16:"Un wagon dans une clairière",17:"1928",18:"Aujourd'hui"};
 /* la page d'accueil : « Continuer » si une partie est en cours, sinon « Commencer » */
 function accueilBoutons(){const sv=svLire(),b=$("reprise"),c=$("commencer");
-  if(sv&&sv.S0){b.hidden=false;b.textContent="Continuer · chapitre "+sv.ch+(TITRES[sv.ch]?" · "+TITRES[sv.ch]:"");c.textContent="Recommencer du début"}
+  if(sv&&sv.S0){b.hidden=false;b.innerHTML="Continuer<small>"+(sv.ch===19?"13 bis":sv.ch===20?"14 bis":"Chapitre "+sv.ch)+(TITRES[sv.ch]?" · "+TITRES[sv.ch]:"")+"</small>";c.textContent="Recommencer du début"}
   else{b.hidden=true;c.textContent="Commencer"}}
 accueilBoutons();$("rejouer").hidden=true;
 /* « Recommencer du début » : la confirmation se fait dans le jeu (les fenêtres du navigateur sont bloquées sur certains sites) */
@@ -4466,8 +4559,8 @@ $("go14").addEventListener("click",e=>{e.stopPropagation();audioInit();if(A.ctx&
 $("go15").addEventListener("click",e=>{e.stopPropagation();audioInit();if(A.ctx&&A.ctx.state==="suspended")A.ctx.resume();demarrer(15)});
 $("go16").addEventListener("click",e=>{e.stopPropagation();audioInit();if(A.ctx&&A.ctx.state==="suspended")A.ctx.resume();demarrer(16)});
 /* écran « À propos » */
-$("aproposBtn").addEventListener("click",e=>{e.stopPropagation();$("debut").hidden=true;$("apropos").hidden=false});
-$("aproposRetour").addEventListener("click",e=>{e.stopPropagation();$("apropos").hidden=true;$("debut").hidden=false});
+$("aproposBtn").addEventListener("click",e=>{e.stopPropagation();$("apropos").hidden=false});
+$("aproposRetour").addEventListener("click",e=>{e.stopPropagation();$("apropos").hidden=true});
 $("go17").addEventListener("click",e=>{e.stopPropagation();audioInit();if(A.ctx&&A.ctx.state==="suspended")A.ctx.resume();demarrer(17)});
 /* les chapitres de Clémence, pour les essais : on suppose Peio fusillé */
 $("go19").addEventListener("click",e=>{e.stopPropagation();audioInit();S=etatInitial();S.peioMort=true;S.lucienSort="grace";demarrer(19,true)});
@@ -4485,12 +4578,13 @@ const CH_ORDRE=[1,2,3,4,5,6,7,8,9,10,11,12,19,20,13,14,15,16,17,18];
 const chNom=c=>(c===19?"13 bis":c===20?"14 bis":String(c));
 function chAfficher(){const m=chLire(),L=$("chListe");L.innerHTML="";
   for(const c of CH_ORDRE)if(m[c]){const b=document.createElement("button");b.type="button";
-    b.innerHTML="<b>"+chNom(c)+"</b>"+(TITRES[c]||"");
+    const o=ORDRE[String(c)]||[],im=o.length?o[Math.floor(o.length/2)]:0;
+    b.className="chCarte";b.innerHTML=(im?'<span class="chImg" style="background-image:url(img/planche-'+String(im).padStart(2,"0")+'.jpg)"></span>':'')+'<span class="chNum">'+chNom(c)+'</span><span class="chTitre">'+(TITRES[c]||"")+'</span>';
     b.addEventListener("click",e=>{e.stopPropagation();audioInit();musDemarree=true;S=JSON.parse(JSON.stringify(m[c]));$("chapitres").hidden=true;demarrer(c,true)});
     L.appendChild(b)}}
 {const abOrig=accueilBoutons;accueilBoutons=function(){abOrig();$("chapitresBtn").hidden=!Object.keys(chLire()).length}}
 accueilBoutons();
-for(const id of ["chapitres","chapitresBtn"])$(id).addEventListener("click",e=>e.stopPropagation());
+for(const id of ["chapitres","chapitresBtn","apropos"])$(id).addEventListener("click",e=>e.stopPropagation());
 $("chapitres").addEventListener("pointerdown",e=>e.stopPropagation());
 $("chapitresBtn").addEventListener("click",()=>{chAfficher();$("chapitres").hidden=false});
 $("chFermer").addEventListener("click",()=>{$("chapitres").hidden=true});
@@ -4501,6 +4595,8 @@ for(const id of ["reglages","reglBtn"])$(id).addEventListener("click",e=>e.stopP
 $("reglages").addEventListener("pointerdown",e=>e.stopPropagation());
 $("reglBtn").addEventListener("click",()=>{audioInit();mixInit();regAppliquer();$("reglages").hidden=false});
 $("reglFermer").addEventListener("click",()=>{$("reglages").hidden=true});
+$("reglFermerX").addEventListener("click",()=>{$("reglages").hidden=true});
+$("reglAcc").addEventListener("click",e=>{e.stopPropagation();$("reglBtn").click()});
 $("volMus").addEventListener("input",e=>{REG.mus=+e.target.value;if(REG.mus>0)REG.musOff=false;regAppliquer();regSauver()});
 $("volSfx").addEventListener("input",e=>{REG.sfx=+e.target.value;if(REG.sfx>0)REG.sfxOff=false;regAppliquer();regSauver()});
 $("coupeMus").addEventListener("click",()=>{REG.musOff=!REG.musOff;regAppliquer();regSauver()});
