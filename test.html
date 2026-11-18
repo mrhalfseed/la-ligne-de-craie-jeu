@@ -256,6 +256,15 @@ svg.craie.petite{width:calc(var(--u)*26)}
 #apropos .qrTitre{margin:0;font-family:var(--f-recit);font-size:17px;color:#efeadf}
 #apropos .qrUrl{margin:0;font-size:11px;color:#a8916a;max-width:160px;word-break:break-all;text-align:center}
 #apropos .version{margin:4px 0 0;font-size:11px;color:rgba(168,145,106,.7)}
+/* Volets dépliables : mentions légales, données, télévision */
+.volet{width:100%;text-align:left;border-top:1px solid rgba(236,230,216,.12);padding:6px 0 2px}
+.volet summary{cursor:pointer;font-family:var(--f-recit);font-size:17px;color:#efeadf;list-style:none;padding:4px 0}
+.volet summary::-webkit-details-marker{display:none}
+.volet summary::before{content:"›";display:inline-block;width:1em;color:#a8916a;transition:transform .2s}
+.volet[open] summary::before{transform:rotate(90deg)}
+.volet p,.volet li{margin:0 0 7px;font-size:13.5px;line-height:1.45;color:#d6cdb9}
+.volet ol{margin:0 0 7px;padding-left:1.3em}
+.volet .acompleter{color:#d9c49a;font-style:italic}
 @media (max-height:420px){.carte{padding:16px 20px 14px;gap:7px}.carte h2,.carte h3{font-size:23px}#apropos .apQR img{width:118px;height:118px}}
 /* les boutons du haut : discrets, flous */
 #ctrl button{font-size:13px;letter-spacing:.04em;background:rgba(13,11,9,.45);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-color:rgba(233,228,216,.22)}
@@ -322,7 +331,24 @@ svg.craie.petite{width:calc(var(--u)*26)}
             <p class="qrUrl">mrhalfseed.github.io/la-ligne-de-craie-jeu</p>
           </div>
         </div>
-        <p class="version">Version n° 107</p>
+        <!-- MENTIONS LÉGALES : les cases « à compléter » seront remplies quand la domiciliation et le numéro SIRET seront connus.
+             ⚠ À COMPLÉTER AVANT LA SORTIE DU JEU. -->
+        <details class="volet" id="mentions">
+          <summary>Mentions légales</summary>
+          <p><b>Éditeur du jeu</b> : <span class="acompleter">[nom ou nom de l'entreprise, à compléter]</span></p>
+          <p><b>Adresse</b> : <span class="acompleter">[adresse de domiciliation, à compléter]</span></p>
+          <p><b>Numéro SIRET</b> : <span class="acompleter">[à compléter, identique au Kbis]</span></p>
+          <p><b>Contact</b> : <span class="acompleter">[adresse e-mail de contact, à compléter]</span></p>
+          <p><b>Directeur de la publication</b> : <span class="acompleter">[nom, à compléter]</span></p>
+          <p><b>Hébergeur du site</b> : GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.</p>
+          <p>Les textes et les images du jeu sont protégés par le droit d'auteur. Les photos d'époque et la musique restent sous leur propre licence (voir plus haut).</p>
+        </details>
+        <details class="volet" id="donnees">
+          <summary>Vos données</summary>
+          <p>Le jeu ne collecte aucune donnée personnelle. Il n'y a ni compte, ni publicité, ni mesure d'audience.</p>
+          <p>Votre partie, vos réglages du son et les fiches déjà lues sont enregistrés uniquement sur votre téléphone. Ils ne sont envoyés nulle part. Pour les effacer, il suffit de supprimer les données du jeu ou de l'application.</p>
+        </details>
+        <p class="version">Version n° 108</p>
       </div>
     </div>
     <div class="ecran" id="fin" hidden></div>
@@ -346,6 +372,16 @@ svg.craie.petite{width:calc(var(--u)*26)}
   <div class="ligne"><label for="volMus">Musique</label><input id="volMus" type="range" min="0" max="100" step="1"><span id="volMusTxt"></span><button id="coupeMus" type="button"></button></div>
   <div class="ligne"><label for="volSfx">Bruitages</label><input id="volSfx" type="range" min="0" max="100" step="1"><span id="volSfxTxt"></span><button id="coupeSfx" type="button"></button></div>
   <p class="aide">Les bruitages (obus, brebis, cloches…) racontent l'histoire. La musique n'est qu'un fond.</p>
+  <!-- Jouer sur la télévision : on recopie l'écran du téléphone, qui reste la télécommande -->
+  <details class="volet" id="tele">
+    <summary>Jouer sur la télévision</summary>
+    <p>Le téléphone affiche son écran sur la télévision. Vous continuez à jouer sur le téléphone, qui sert de télécommande : toucher pour avancer, toucher un choix pour le faire.</p>
+    <ol>
+      <li><b>Android</b> (avec un Chromecast ou une télévision Google TV) : ouvrez les réglages rapides du téléphone (glissez du haut de l'écran) et touchez « Caster l'écran », « Smart View » ou « Diffuser », selon la marque. Choisissez la télévision.</li>
+      <li><b>iPhone</b> (avec une Apple TV ou une télévision compatible AirPlay) : ouvrez le centre de contrôle et touchez « Recopie de l'écran ». Choisissez la télévision.</li>
+      <li>Revenez dans le jeu et tournez le téléphone à l'horizontale. Le son passe par la télévision.</li>
+    </ol>
+  </details>
   <button id="reglFermer" type="button" class="fermer">Fermer</button>
 </div></div>
 <div id="portrait" hidden><div class="tel"></div><div>Tournez votre téléphone à l'horizontale<br>pour lire la bande dessinée.</div><button id="quandmeme" type="button">Continuer quand même</button></div>
