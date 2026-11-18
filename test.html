@@ -234,6 +234,7 @@ svg.craie.petite{width:calc(var(--u)*26)}
 #chListe button.chCarte::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,8,6,.92),rgba(10,8,6,.1) 70%)}
 #chListe button.chCarte:active .chImg{opacity:.85}
 #chListe .chNum,#chListe .chTitre{position:relative;z-index:1}
+#chListe button.pasJoue{border-style:dashed;opacity:.8}
 #chListe .chNum{font-family:var(--f-recit);font-size:20px;color:#e0b98a;line-height:1}
 #chListe .chTitre{font-size:14px;color:#efeadf;line-height:1.2}
 #apropos .apGrille{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start;text-align:left;width:100%}
@@ -307,7 +308,7 @@ svg.craie.petite{width:calc(var(--u)*26)}
             <p class="qrUrl">mrhalfseed.github.io/la-ligne-de-craie-jeu</p>
           </div>
         </div>
-        <p class="version">Version n° 97</p>
+        <p class="version">Version n° 98</p>
       </div>
     </div>
     <div class="ecran" id="fin" hidden></div>
@@ -4575,13 +4576,21 @@ function chLire(){try{return JSON.parse(localStorage.getItem(CLE_CH)||"{}")}catc
 {const svDebutOrig=svDebut;svDebut=function(ch){svDebutOrig(ch);try{const m=chLire();m[ch]=JSON.parse(JSON.stringify(S));localStorage.setItem(CLE_CH,JSON.stringify(m))}catch(e){}}}
 const CH_ORDRE=[1,2,3,4,5,6,7,8,9,10,11,12,19,20,13,14,15,16,17,18];
 const chNom=c=>(c===19?"13 bis":c===20?"14 bis":String(c));
+/* MODE DÉVELOPPEMENT : tous les chapitres sont proposés, même ceux pas encore joués.
+   ⚠ À METTRE À false AVANT LA SORTIE DU JEU. */
+const DEV_TOUS_CHAPITRES=true;
+/* état de départ pour un chapitre jamais joué : celui du chapitre joué juste avant s'il existe, sinon un état neuf ;
+   pour 13 bis et 14 bis, Peio a été fusillé et Lucien gracié */
+function chEtatDefaut(c,m){let s=null;const i=CH_ORDRE.indexOf(c);for(let j=i-1;j>=0;j--)if(m[CH_ORDRE[j]]){s=JSON.parse(JSON.stringify(m[CH_ORDRE[j]]));break}
+  s=s||etatInitial();if(c===19||c===20){s.peioMort=true;s.lucienSort=s.lucienSort||"grace"}else if(c>=13&&c<=16)s.peioMort=false;return s}
 function chAfficher(){const m=chLire(),L=$("chListe");L.innerHTML="";
-  for(const c of CH_ORDRE)if(m[c]){const b=document.createElement("button");b.type="button";
+  for(const c of CH_ORDRE)if(m[c]||DEV_TOUS_CHAPITRES){const b=document.createElement("button");b.type="button";
     const o=ORDRE[String(c)]||[],im=o.length?o[Math.floor(o.length/2)]:0;
     b.className="chCarte";b.innerHTML=(im?'<span class="chImg" style="background-image:url(img/planche-'+String(im).padStart(2,"0")+'.jpg)"></span>':'')+'<span class="chNum">'+chNom(c)+'</span><span class="chTitre">'+(TITRES[c]||"")+'</span>';
-    b.addEventListener("click",e=>{e.stopPropagation();audioInit();musDemarree=true;S=JSON.parse(JSON.stringify(m[c]));$("chapitres").hidden=true;demarrer(c,true)});
+    b.addEventListener("click",e=>{e.stopPropagation();audioInit();musDemarree=true;S=m[c]?JSON.parse(JSON.stringify(m[c])):chEtatDefaut(c,m);$("chapitres").hidden=true;demarrer(c,true)});
+    if(!m[c])b.classList.add("pasJoue");
     L.appendChild(b)}}
-{const abOrig=accueilBoutons;accueilBoutons=function(){abOrig();$("chapitresBtn").hidden=!Object.keys(chLire()).length}}
+{const abOrig=accueilBoutons;accueilBoutons=function(){abOrig();$("chapitresBtn").hidden=!DEV_TOUS_CHAPITRES&&!Object.keys(chLire()).length}}
 accueilBoutons();
 for(const id of ["chapitres","chapitresBtn","apropos"])$(id).addEventListener("click",e=>e.stopPropagation());
 $("chapitres").addEventListener("pointerdown",e=>e.stopPropagation());
