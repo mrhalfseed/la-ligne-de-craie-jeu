@@ -287,7 +287,7 @@ svg.craie.petite{width:calc(var(--u)*26)}
       </nav>
       <!-- boutons des chapitres : cachés pour toujours (le code s'en sert pour lancer le chapitre 1) -->
       <div id="chapitresTest" hidden><button class="go" id="go" type="button">Chapitre 1</button><button class="go" id="go2" type="button">Chapitre 2</button><button class="go" id="go3" type="button">Chapitre 3</button><button class="go" id="go4" type="button">Chapitre 4</button><button class="go" id="go5" type="button">Chapitre 5</button><button class="go" id="go6" type="button">Chapitre 6</button><button class="go" id="go7" type="button">Chapitre 7</button><button class="go" id="go8" type="button">Chapitre 8</button><button class="go" id="go9" type="button">Chapitre 9</button><button class="go" id="go10" type="button">Chapitre 10</button><button class="go" id="go11" type="button">Chapitre 11</button><button class="go" id="go12" type="button">Chapitre 12</button><button class="go" id="go13" type="button">Chapitre 13</button><button class="go" id="go14" type="button">Chapitre 14</button><button class="go" id="go15" type="button">Chapitre 15</button><button class="go" id="go16" type="button">Chapitre 16</button><button class="go" id="go17" type="button">Chapitre 17</button><button class="go" id="go18" type="button">Chapitre 18</button><button class="go" id="go19" type="button">13 bis (Clémence)</button><button class="go" id="go20" type="button">14 bis (Clémence)</button></div>
-      <p class="consigne">Téléphone à l'horizontale · son allumé · touchez l'écran pour avancer</p>
+      <p class="consigne">Téléphone à l'horizontale · son allumé · touchez l'écran pour avancer, à gauche pour revenir</p>
     </div>
     <!-- Écran « À propos » : le but du jeu, l'usage de l'IA (dit franchement), les sources des photos -->
     <div class="ecran panneau" id="apropos" hidden>
@@ -309,7 +309,7 @@ svg.craie.petite{width:calc(var(--u)*26)}
             <p class="qrUrl">mrhalfseed.github.io/la-ligne-de-craie-jeu</p>
           </div>
         </div>
-        <p class="version">Version n° 99</p>
+        <p class="version">Version n° 100</p>
       </div>
     </div>
     <div class="ecran" id="fin" hidden></div>
@@ -4166,6 +4166,7 @@ function reprendre(){
     else if(n.t==="end"||n.t==="end2"||n.t==="end3"||n.t==="end4"||n.t==="end5"||n.t==="end6"||n.t==="end7"||n.t==="end8"||n.t==="end9"||n.t==="end10"||n.t==="end11"||n.t==="end12"||n.t==="end13"||n.t==="end14"||n.t==="end15"||n.t==="end16"||n.t==="end17"||n.t==="end18"||n.t==="end19"||n.t==="end20")break;
     qi++}
   if(ambiance)setAmb(ambiance);
+  SV.choix=SV.choix.slice(0,k);svEcrire();
   if(dernier)queue.splice(qi,0,{...dernier,cam:{...dernier.cam,d:0}});
   run(runId);
 }
@@ -4469,8 +4470,15 @@ function finFiches(f){const b=document.createElement("button");b.className="go";
 fPoint();
 
 /* ---------- Commandes ---------- */
-stage.addEventListener("click",tap);
-addEventListener("keydown",e=>{if([" ","Enter","ArrowRight"].includes(e.key)&&$("choix").hidden&&$("debut").hidden){e.preventDefault();tap()}});
+/* Toucher le quart gauche de l'écran : revenir à la bulle précédente (on rejoue le chapitre en silence jusque-là).
+   Le reste de l'écran : avancer, comme avant. */
+function retour(){if(!SV||!$("debut").hidden||!$("fin").hidden||SV.pas<=0)return;
+  const n=performance.now();if(n-lastTap<280)return;lastTap=n;
+  SV.pas--;svEcrire();reprendre();toast("‹ Retour")}
+stage.addEventListener("click",e=>{const r=stage.getBoundingClientRect();if(e.clientX-r.left<r.width*.22&&SV&&SV.pas>0&&$("debut").hidden&&$("choix").hidden)retour();else tap()});
+/* le choix ouvert : toucher à gauche, en dehors des réponses, revient aussi en arrière */
+$("choix").addEventListener("click",e=>{if(e.target.closest("button"))return;const r=stage.getBoundingClientRect();if(e.clientX-r.left<r.width*.22){e.stopPropagation();retour()}});
+addEventListener("keydown",e=>{if(e.key==="ArrowLeft"&&$("debut").hidden){e.preventDefault();retour();return}if([" ","Enter","ArrowRight"].includes(e.key)&&$("choix").hidden&&$("debut").hidden){e.preventDefault();tap()}});
 $("go").addEventListener("click",e=>{e.stopPropagation();audioInit();if(A.ctx&&A.ctx.state==="suspended")A.ctx.resume();
   try{const el=document.documentElement;if(el.requestFullscreen)el.requestFullscreen().then(()=>screen.orientation&&screen.orientation.lock&&screen.orientation.lock("landscape").catch(()=>{})).catch(()=>{})}catch(_){}
   demarrer(1)});
