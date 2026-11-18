@@ -308,7 +308,7 @@ svg.craie.petite{width:calc(var(--u)*26)}
             <p class="qrUrl">mrhalfseed.github.io/la-ligne-de-craie-jeu</p>
           </div>
         </div>
-        <p class="version">Version n° 98</p>
+        <p class="version">Version n° 99</p>
       </div>
     </div>
     <div class="ecran" id="fin" hidden></div>
@@ -1063,7 +1063,9 @@ function scenario3(){const t21=T.p21,t22=T.p22,t23=T.p23,t24=T.p24;return [
    {l:"« Je reviendrai. »",fx:lien("mere",1,"Ama, sa mère, s'en souviendra.")},
    {l:"« Je vous écrirai chaque fois que je le pourrai. »",fx:s=>{s.mere++;s.gaxuxa++;return "Ama, sa mère, et Gaxuxa s'en souviendront."}},
    {l:"Rien. L'embrasser, et monter dans le train.",fx:lien("mere",1,"Ama, sa mère, le retient une seconde par la manche.")}
-  ]}
+  ]},
+  /* lien avec le volume 2 (L'Écho des deux visages) : le chef de gare, hors champ, appelle le mécanicien Chabrand, le père du héros du volume 2 */
+  say("Chabrand ! C'est bon, tu peux y aller !",[1660,560,30],{side:"left",nom:"Le chef de gare",cam:{f:[1300,470],z:.8,d:1400}})
  ],else:[]},
  amb("caserne"),
  shot(23,0,{f:[600,220],z:1,d:0}),
