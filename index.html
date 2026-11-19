@@ -17,6 +17,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Reenie+Beanie&family=Schoolbell&family=Caveat:wght@500;600&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=IM+Fell+English:ital@0;1&family=Patrick+Hand&display=swap">
 <style>
 /* Liseuse de BD guidée : la caméra se promène dans chaque case (jamais la planche entière), les cases s'enchaînent en fondu d'aquarelle, le texte se pose par-dessus. */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 :root{
   --nuit:#0d0b09;--papier:#fbf7ee;--vieux-papier:#eadfc3;--encre:#1c1712;--craie:#e9e4d8;--sepia:#a8916a;--rouge:#9e2a22;
   --f-bulle:"Patrick Hand","Comic Neue","Segoe Print",cursive;
@@ -349,7 +350,7 @@ svg.craie.petite{width:calc(var(--u)*26)}
           <p>Le jeu ne collecte aucune donnée personnelle. Il n'y a ni compte, ni publicité, ni mesure d'audience.</p>
           <p>Votre partie, vos réglages du son et les fiches déjà lues sont enregistrés uniquement sur votre téléphone. Ils ne sont envoyés nulle part. Pour les effacer, il suffit de supprimer les données du jeu ou de l'application.</p>
         </details>
-        <p class="version">Version n° 111</p>
+        <p class="version">Version n° 112</p>
       </div>
     </div>
     <div class="ecran" id="fin" hidden></div>
@@ -389,6 +390,22 @@ svg.craie.petite{width:calc(var(--u)*26)}
 
 <script>
 "use strict";
+/* ---------- Texte agrandi dans les réglages du téléphone ----------
+   Sur Android, si la « taille de police » du téléphone est agrandie, tous les textes du jeu grossissent
+   et débordent des cases. On mesure ce grossissement (un texte de la page comparé au même texte dessiné
+   dans un canevas, qui, lui, n'est jamais agrandi) et on réduit d'autant les tailles de texte du jeu. */
+function texteCompense(z){try{
+  if(!z){const sp=document.createElement("span");sp.textContent="MMMMMMMMMM";
+    sp.style.cssText="position:absolute;left:-9999px;top:0;visibility:hidden;white-space:nowrap;font:100px serif;line-height:1";
+    document.documentElement.appendChild(sp);const w=sp.getBoundingClientRect().width;sp.remove();
+    const cx=document.createElement("canvas").getContext("2d");cx.font="100px serif";z=w/cx.measureText("MMMMMMMMMM").width}
+  if(!(z>1.04&&z<4))return;window.ZOOM_TEXTE=z;
+  const reduire=regles=>{for(const r of regles){if(r.cssRules)reduire(r.cssRules);
+    const v=r.style&&r.style.fontSize;if(!v||/em|%|inherit|initial|unset/.test(v))continue;   /* em et % suivent déjà le parent */
+    r.style.setProperty("font-size","calc("+v+" / "+z+")",r.style.getPropertyPriority("font-size"))}};
+  for(const f of document.styleSheets){try{reduire(f.cssRules)}catch(_){}}
+}catch(_){}}
+texteCompense();
 const $=id=>document.getElementById(id);
 const stage=$("stage"),txt=$("txt"),glc=$("gl"),pc=$("parts");
 const reduit=matchMedia("(prefers-reduced-motion: reduce)").matches;
